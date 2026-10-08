@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: collabcraft-student-hub
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python server/main.py"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: SEED_MOCK_DATA
+        value: "false"

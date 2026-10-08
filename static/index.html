@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CollabCraft - Global Student Collaboration Platform</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen flex flex-col bg-[#0b0f19] text-slate-100 selection:bg-indigo-500 selection:text-white">
+
+  <!-- Top Glass Navigation Bar -->
+  <nav class="sticky top-0 z-40 glass-nav px-4 lg:px-8 py-3 flex items-center justify-between gap-4">
+    <!-- Brand Logo -->
+    <div class="flex items-center gap-3 cursor-pointer" onclick="App.showView('discover')">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center font-extrabold text-white text-xl shadow-lg glow-primary">
+        🚀
+      </div>
+      <div>
+        <div class="font-extrabold text-xl tracking-tight text-white flex items-center gap-1.5">
+          CollabCraft <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">LIVE</span>
+        </div>
+        <div class="text-[10px] text-slate-400 font-medium">Global Student Collaboration Platform</div>
+      </div>
+    </div>
+
+    <!-- Center Navigation Links -->
+    <div class="hidden md:flex items-center gap-6 text-xs font-bold">
+      <button id="nav-discover" onclick="App.showView('discover')" class="nav-link py-2 text-slate-300 hover:text-indigo-400 transition-colors">
+        🔎 Discover Projects
+      </button>
+      <button id="nav-my_projects" onclick="App.showView('my_projects')" class="nav-link py-2 text-slate-300 hover:text-indigo-400 transition-colors">
+        🤝 My Teams & Requests
+      </button>
+      <button id="nav-showcase" onclick="App.showView('showcase')" class="nav-link py-2 text-slate-300 hover:text-indigo-400 transition-colors">
+        🏆 Portfolio Showcase
+      </button>
+      <button id="nav-profile" onclick="App.showView('profile')" class="nav-link py-2 text-slate-300 hover:text-indigo-400 transition-colors">
+        👤 My Profile
+      </button>
+    </div>
+
+    <!-- Right Side Actions & Authentication Container -->
+    <div class="flex items-center gap-3">
+      <div id="navAuthActions">
+        <!-- Rendered dynamically (Log In / Sign Up OR User Profile pill) -->
+      </div>
+
+      <button onclick="App.openPublishModal()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg glow-primary transition-all flex items-center gap-1.5">
+        <span>💡</span> <span class="hidden sm:inline">Publish Project</span>
+      </button>
+    </div>
+  </nav>
+
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-8">
+
+    <!-- VIEW 1: PROJECT DISCOVERY & HERO MODULE -->
+    <div id="view-discover" class="view-container space-y-8 animate-fadeIn">
+      <!-- Hero Header -->
+      <div class="glass-card rounded-3xl p-8 lg:p-12 relative overflow-hidden border border-indigo-500/20 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="max-w-2xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+            ✨ Idea → Discover → Express Interest → Form Team → Build
+          </div>
+          <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Build real software with student teammates worldwide.
+          </h1>
+          <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+            Publish your project idea or explore open roles in student projects across AI/ML, Web, Mobile, Blockchain, and IoT. Connect, form teams, and build verified portfolio projects.
+          </p>
+
+          <div class="pt-2 flex flex-wrap items-center gap-4 justify-center md:justify-start">
+            <button onclick="App.openPublishModal()" class="px-6 py-3 rounded-2xl text-xs font-extrabold bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-xl glow-primary">
+              💡 Publish Your Project Idea
+            </button>
+            <button onclick="App.openRegisterModal()" class="px-6 py-3 rounded-2xl text-xs font-bold bg-slate-900/80 hover:bg-slate-800 text-slate-300 border border-slate-700">
+              🎓 Create Student Profile
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Stats Badges -->
+        <div class="grid grid-cols-2 gap-3 w-full md:w-auto">
+          <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+            <div class="text-2xl font-black text-emerald-400">Live</div>
+            <div class="text-[11px] text-slate-400 font-medium">Real Accounts</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+            <div class="text-2xl font-black text-indigo-400">12 Core</div>
+            <div class="text-[11px] text-slate-400 font-medium">Full Modules</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+            <div class="text-2xl font-black text-cyan-400">Kanban</div>
+            <div class="text-[11px] text-slate-400 font-medium">Team Workspace</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 text-center">
+            <div class="text-2xl font-black text-purple-400">Global</div>
+            <div class="text-[11px] text-slate-400 font-medium">Peer Network</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Category Filter Section -->
+      <div class="glass-card rounded-2xl p-4 space-y-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="relative w-full md:w-96">
+            <input type="text" oninput="App.setSearchFilter(this.value)" placeholder="Search projects by title, skills, tech (e.g. React, Python)..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-all">
+          </div>
+
+          <div id="domainFiltersContainer" class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects Discovery Grid -->
+      <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+
+    <!-- VIEW 2: PROJECT DETAILS MODULE -->
+    <div id="view-details" class="view-container hidden">
+      <!-- Rendered dynamically -->
+    </div>
+
+    <!-- VIEW 3: USER PROFILE MODULE -->
+    <div id="view-profile" class="view-container hidden">
+      <!-- Rendered dynamically -->
+    </div>
+
+    <!-- VIEW 4: MY PROJECTS & JOIN REQUESTS MANAGER -->
+    <div id="view-my_projects" class="view-container hidden">
+      <!-- Rendered dynamically -->
+    </div>
+
+    <!-- VIEW 5: PROJECT WORKSPACE MODULE -->
+    <div id="view-workspace" class="view-container hidden">
+      <!-- Rendered dynamically -->
+    </div>
+
+    <!-- VIEW 6: COMPLETED PROJECTS PORTFOLIO SHOWCASE -->
+    <div id="view-showcase" class="view-container hidden space-y-6">
+      <div class="glass-card rounded-3xl p-8 border border-purple-500/20">
+        <h1 class="text-3xl font-extrabold text-white mb-2">🏆 Completed Student Projects & Portfolio Showcase</h1>
+        <p class="text-slate-300 text-sm">Explore finished projects built by student teams. Every project here serves as a verified portfolio for team members.</p>
+      </div>
+
+      <div id="showcaseGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+  </main>
+
+
+  <!-- AUTH MODAL 1: STUDENT LOGIN -->
+  <div id="loginModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-modal rounded-3xl p-8 max-w-md w-full border border-indigo-500/30 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-white">🔑 Log In to CollabCraft</h3>
+          <p class="text-xs text-slate-400">Access your student profile, project workspace, and team join requests.</p>
+        </div>
+        <button onclick="App.closeLoginModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <form onsubmit="App.handleLoginSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Email Address *</label>
+          <input type="email" id="loginEmail" required placeholder="student@university.edu" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Password *</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div class="pt-4 flex items-center justify-between border-t border-slate-800">
+          <button type="button" onclick="App.closeLoginModal(); App.openRegisterModal();" class="text-indigo-400 hover:underline text-xs">Don't have an account? Sign up</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg">Log In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- AUTH MODAL 2: STUDENT REGISTER -->
+  <div id="registerModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-modal rounded-3xl p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto border border-indigo-500/30 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-white">🎓 Create Real Student Profile</h3>
+          <p class="text-xs text-slate-400">Join the global network of student project collaborators.</p>
+        </div>
+        <button onclick="App.closeRegisterModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <form onsubmit="App.handleRegisterSubmit(event)" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Full Name *</label>
+            <input type="text" id="regName" required placeholder="e.g. Alex Chen" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Email Address *</label>
+            <input type="email" id="regEmail" required placeholder="alex@university.edu" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Password *</label>
+          <input type="password" id="regPassword" required minlength="6" placeholder="Choose a secure password" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">University / College *</label>
+            <input type="text" id="regCollege" required placeholder="e.g. Stanford University, IIT Bombay..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Year & Major/Branch *</label>
+            <input type="text" id="regYearBranch" required placeholder="e.g. 3rd Year, Computer Science" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Core Skills</label>
+            <input type="text" id="regSkills" placeholder="e.g. Python, React, PyTorch, UI/UX" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Technologies Known</label>
+            <input type="text" id="regTechStack" placeholder="e.g. JavaScript, Docker, FastAPI, PostgreSQL" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Short Bio</label>
+          <textarea id="regBio" rows="2" placeholder="Tell potential teammates about yourself..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">GitHub URL</label>
+            <input type="url" id="regGithub" placeholder="https://github.com/username" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Portfolio / LinkedIn URL</label>
+            <input type="url" id="regPortfolio" placeholder="https://yourportfolio.dev" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">What type of projects do you want to work on?</label>
+          <input type="text" id="regDesiredProjects" placeholder="e.g. AI tools, Web Apps, Open Source..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+        </div>
+
+        <div class="pt-4 flex items-center justify-between border-t border-slate-800">
+          <button type="button" onclick="App.closeRegisterModal(); App.openLoginModal();" class="text-indigo-400 hover:underline text-xs">Already registered? Log in</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg">Create Profile & Sign Up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL 3: PUBLISH PROJECT IDEA MODULE -->
+  <div id="publishModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-modal rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-indigo-500/30 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-white">💡 Publish Your Project Idea</h3>
+          <p class="text-xs text-slate-400">Describe your concept so global students can discover & join your team.</p>
+        </div>
+        <button onclick="App.closePublishModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <form onsubmit="App.handlePublishSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Project Title *</label>
+          <input type="text" id="pubTitle" required placeholder="e.g. AI Resume Analyzer & Career Guidance Engine" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Domain *</label>
+            <select id="pubDomain" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+              <option value="AI/ML">AI/ML</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Mobile Apps">Mobile Apps</option>
+              <option value="Blockchain">Blockchain</option>
+              <option value="IoT">IoT</option>
+              <option value="Cybersecurity">Cybersecurity</option>
+              <option value="Game Development">Game Development</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Difficulty Level</label>
+            <select id="pubDifficulty" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white">
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate" selected>Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Problem Statement *</label>
+          <textarea id="pubProblem" required rows="2" placeholder="What problem does this project solve for users or students?" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Proposed Solution *</label>
+          <textarea id="pubSolution" required rows="2" placeholder="How does your application address this problem?" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Detailed Description (Optional)</label>
+          <textarea id="pubDescription" rows="2" placeholder="More context on features, architecture, or goals..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Required Roles (Comma-separated)</label>
+            <input type="text" id="pubRolesInput" required placeholder="e.g. Python/ML, React Frontend, UI/UX Designer" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Tech Stack</label>
+            <input type="text" id="pubTechStack" required placeholder="e.g. Python, FastAPI, PyTorch, React, Tailwind" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Total Team Size</label>
+            <input type="number" id="pubTeamSize" value="4" min="2" max="10" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Estimated Duration</label>
+            <input type="text" id="pubDuration" value="4 Weeks" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Why do you want to build it?</label>
+            <input type="text" id="pubMotivation" placeholder="Help students improve resumes..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">What kind of people are you looking for?</label>
+            <input type="text" id="pubLookingFor" placeholder="Eager learners, good communication..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          </div>
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-800">
+          <button type="button" onclick="App.closePublishModal()" class="px-5 py-2.5 rounded-xl font-bold bg-slate-800 text-slate-400 hover:text-white">Cancel</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg">Publish Idea</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL 4: JOIN REQUEST PITCH MODULE -->
+  <div id="joinModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-modal rounded-3xl p-8 max-w-lg w-full border border-indigo-500/30 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-white">🤝 Send Join Request</h3>
+          <p class="text-xs text-slate-400">Introduce yourself and explain how you can contribute to this project.</p>
+        </div>
+        <button onclick="App.closeJoinModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <form onsubmit="App.handleJoinSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Role You Want to Apply For *</label>
+          <input type="text" id="joinRoleApplied" required placeholder="e.g. React Frontend Dev, Backend API Builder" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Pitch Message to Author *</label>
+          <textarea id="joinPitchMessage" required rows="4" placeholder="Hi! I'm interested in your project. I know React and Node.js and would love to build the backend endpoints..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500"></textarea>
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-800">
+          <button type="button" onclick="App.closeJoinModal()" class="px-5 py-2.5 rounded-xl font-bold bg-slate-800 text-slate-400">Cancel</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg">Submit Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL 5: ADD TASK MODAL -->
+  <div id="addTaskModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-modal rounded-3xl p-8 max-w-md w-full border border-indigo-500/30 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <h3 class="text-lg font-bold text-white">📋 Create Workspace Task</h3>
+        <button onclick="App.closeAddTaskModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <form onsubmit="App.handleAddTaskSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Task Title *</label>
+          <input type="text" id="taskTitle" required placeholder="e.g. Build JWT login API endpoints" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Description</label>
+          <textarea id="taskDescription" rows="2" placeholder="Details or task requirements..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Priority</label>
+          <select id="taskPriority" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-800">
+          <button type="button" onclick="App.closeAddTaskModal()" class="px-4 py-2 rounded-xl text-slate-400 font-bold">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 font-bold text-white">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL 6: ADD RESOURCE MODAL -->
+  <div id="addResourceModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-modal rounded-3xl p-8 max-w-md w-full border border-indigo-500/30 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <h3 class="text-lg font-bold text-white">🔗 Add Resource Link</h3>
+        <button onclick="App.closeAddResourceModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <form onsubmit="App.handleAddResourceSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Resource Title *</label>
+          <input type="text" id="resTitle" required placeholder="e.g. GitHub Repository, Figma Design" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Category</label>
+          <select id="resCategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white">
+            <option value="github">GitHub</option>
+            <option value="figma">Figma</option>
+            <option value="drive">Google Drive / Docs</option>
+            <option value="dataset">Dataset</option>
+            <option value="docs">Documentation</option>
+            <option value="deployment">Deployment URL</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">URL *</label>
+          <input type="url" id="resUrl" required placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Description</label>
+          <input type="text" id="resDesc" placeholder="Brief note..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-800">
+          <button type="button" onclick="App.closeAddResourceModal()" class="px-4 py-2 rounded-xl text-slate-400 font-bold">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 font-bold text-white">Add Link</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL 7: PUBLISH SHOWCASE PORTFOLIO MODAL -->
+  <div id="publishShowcaseModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="glass-modal rounded-3xl p-8 max-w-lg w-full border border-purple-500/30 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <h3 class="text-lg font-bold text-white">⭐ Publish to Portfolio Showcase</h3>
+        <button onclick="App.closePublishShowcaseModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+      </div>
+
+      <form onsubmit="App.handlePublishShowcaseSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Showcase Title *</label>
+          <input type="text" id="showcaseTitle" required placeholder="Project Title" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Summary *</label>
+          <textarea id="showcaseSummary" required rows="2" placeholder="What did your team build and achieve?" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">Live Demo URL</label>
+            <input type="url" id="showcaseDemoUrl" placeholder="https://demo.vercel.app" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-bold mb-1">GitHub Repo</label>
+            <input type="url" id="showcaseGithubUrl" placeholder="https://github.com/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Key Learnings & Takeaways</label>
+          <textarea id="showcaseLearnings" rows="2" placeholder="What technical or teamwork skills did you gain?" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-bold mb-1">Screenshot Image URLs (Comma-separated)</label>
+          <input type="text" id="showcaseScreenshots" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-800">
+          <button type="button" onclick="App.closePublishShowcaseModal()" class="px-4 py-2 rounded-xl text-slate-400 font-bold">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-purple-600 font-bold text-white">Publish Showcase</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Application Scripts -->
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/components.js"></script>
+  <script src="/static/js/app.js"></script>
+
+  <!-- Offline / direct file load fallback scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
