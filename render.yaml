@@ -1,9 +1,8 @@
 services:
   - type: web
-    name: collabcraft-student-hub
-    env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python server/main.py"
+    name: collabcraft
+    env: docker
+    dockerfilePath: Dockerfile
     envVars:
       - key: SECRET_KEY
         generateValue: true

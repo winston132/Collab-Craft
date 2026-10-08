@@ -1,5 +1,10 @@
 import os
+import sys
 import json
+
+# Ensure server folder is in Python module search path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, Depends, HTTPException, Query, status
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
