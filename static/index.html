@@ -177,6 +177,8 @@
         <button onclick="App.closeLoginModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
       </div>
 
+      <div id="loginErrorMsg" class="hidden p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs font-semibold"></div>
+
       <form onsubmit="App.handleLoginSubmit(event)" class="space-y-4 text-xs">
         <div>
           <label class="block text-slate-300 font-bold mb-1">Email Address *</label>
@@ -185,7 +187,10 @@
 
         <div>
           <label class="block text-slate-300 font-bold mb-1">Password *</label>
-          <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+          <div class="relative">
+            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-4 pr-10 py-2.5 text-white focus:outline-none focus:border-indigo-500">
+            <button type="button" onclick="App.togglePasswordVisibility('loginPassword', this)" title="Show/Hide Password" class="absolute right-3 top-2.5 text-slate-400 hover:text-white select-none text-sm">👁️</button>
+          </div>
         </div>
 
         <div class="pt-4 flex items-center justify-between border-t border-slate-800">
@@ -208,6 +213,8 @@
         <button onclick="App.closeRegisterModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
       </div>
 
+      <div id="regErrorMsg" class="hidden p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs font-semibold"></div>
+
       <form onsubmit="App.handleRegisterSubmit(event)" class="space-y-4 text-xs">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -221,8 +228,11 @@
         </div>
 
         <div>
-          <label class="block text-slate-300 font-bold mb-1">Password *</label>
-          <input type="password" id="regPassword" required minlength="6" placeholder="Choose a secure password" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white">
+          <label class="block text-slate-300 font-bold mb-1">Password * (min 6 chars)</label>
+          <div class="relative">
+            <input type="password" id="regPassword" required minlength="6" placeholder="Choose a secure password" class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-4 pr-10 py-2.5 text-white">
+            <button type="button" onclick="App.togglePasswordVisibility('regPassword', this)" title="Show/Hide Password" class="absolute right-3 top-2.5 text-slate-400 hover:text-white select-none text-sm">👁️</button>
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

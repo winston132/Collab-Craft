@@ -336,8 +336,23 @@ const App = {
     grid.innerHTML = completed.map(cp => Components.renderCompletedProjectCard(cp)).join('');
   },
 
+  // Password Eye Toggle Helper
+  togglePasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.textContent = '🙈';
+    } else {
+      input.type = 'password';
+      btn.textContent = '👁️';
+    }
+  },
+
   // Auth Modals
   openLoginModal() {
+    const errBox = document.getElementById('loginErrorMsg');
+    if (errBox) { errBox.classList.add('hidden'); errBox.textContent = ''; }
     document.getElementById('loginModal').classList.remove('hidden');
   },
   closeLoginModal() {
@@ -346,8 +361,16 @@ const App = {
 
   async handleLoginSubmit(e) {
     e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
+    const errBox = document.getElementById('loginErrorMsg');
+    if (errBox) errBox.classList.add('hidden');
+
+    const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
+
+    if (!email || !password) {
+      if (errBox) { errBox.textContent = 'Please enter both email address and password.'; errBox.classList.remove('hidden'); }
+      return;
+    }
 
     try {
       const res = await api.login({ email, password });
@@ -357,11 +380,17 @@ const App = {
       this.showToast(`Welcome back, ${res.user.name}!`);
       this.showView('discover');
     } catch (err) {
+      if (errBox) {
+        errBox.textContent = err.message || 'Login failed. Please check your credentials.';
+        errBox.classList.remove('hidden');
+      }
       this.showToast(err.message, 'warning');
     }
   },
 
   openRegisterModal() {
+    const errBox = document.getElementById('regErrorMsg');
+    if (errBox) { errBox.classList.add('hidden'); errBox.textContent = ''; }
     document.getElementById('registerModal').classList.remove('hidden');
   },
   closeRegisterModal() {
@@ -370,19 +399,44 @@ const App = {
 
   async handleRegisterSubmit(e) {
     e.preventDefault();
+    const errBox = document.getElementById('regErrorMsg');
+    if (errBox) errBox.classList.add('hidden');
+
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const college = document.getElementById('regCollege').value.trim();
+    const year_branch = document.getElementById('regYearBranch').value.trim();
+
+    if (!name || !email || !password || !college || !year_branch) {
+      if (errBox) {
+        errBox.textContent = 'Please fill out all required fields marked with *';
+        errBox.classList.remove('hidden');
+      }
+      return;
+    }
+
+    if (password.length < 6) {
+      if (errBox) {
+        errBox.textContent = 'Password must be at least 6 characters long.';
+        errBox.classList.remove('hidden');
+      }
+      return;
+    }
+
     const data = {
-      name: document.getElementById('regName').value,
-      email: document.getElementById('regEmail').value,
-      password: document.getElementById('regPassword').value,
-      college: document.getElementById('regCollege').value,
-      year_branch: document.getElementById('regYearBranch').value,
-      skills: document.getElementById('regSkills').value,
-      tech_stack: document.getElementById('regTechStack').value,
-      interests: document.getElementById('regInterests').value,
-      bio: document.getElementById('regBio').value,
-      github_url: document.getElementById('regGithub').value,
-      portfolio_url: document.getElementById('regPortfolio').value,
-      desired_projects: document.getElementById('regDesiredProjects').value
+      name,
+      email,
+      password,
+      college,
+      year_branch,
+      skills: document.getElementById('regSkills').value.trim(),
+      tech_stack: document.getElementById('regTechStack').value.trim(),
+      interests: document.getElementById('regInterests').value.trim(),
+      bio: document.getElementById('regBio').value.trim(),
+      github_url: document.getElementById('regGithub').value.trim(),
+      portfolio_url: document.getElementById('regPortfolio').value.trim(),
+      desired_projects: document.getElementById('regDesiredProjects').value.trim()
     };
 
     try {
@@ -390,9 +444,13 @@ const App = {
       this.currentUser = res.user;
       this.renderAuthUI();
       this.closeRegisterModal();
-      this.showToast("Account created successfully! Welcome to CollabCraft.");
+      this.showToast("Account created successfully! Welcome.");
       this.showView('discover');
     } catch (err) {
+      if (errBox) {
+        errBox.textContent = err.message || 'Registration failed. Please check your information.';
+        errBox.classList.remove('hidden');
+      }
       this.showToast(err.message, 'warning');
     }
   },
